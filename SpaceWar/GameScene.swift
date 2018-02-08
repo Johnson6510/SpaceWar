@@ -18,10 +18,13 @@ class GameScene: SKScene {
     let enemyLayer = SKNode()
     let bulletLayer = SKNode()
 
-    private var myShip: SKSpriteNode!
+    private var myShip: SKNode!
     private var laserBeam: SKNode?
     private var myShipPosition = CGPoint(x: 0, y: 0)
-    
+
+    private var enemy = [SKNode]()
+    private var enemyNo = 0
+
     var shipWidth: CGFloat = 70
     var shipHeight: CGFloat = 80
     
@@ -56,30 +59,19 @@ class GameScene: SKScene {
         enemyLayer.position = layerPosition
         gameLayer.addChild(enemyLayer)
         
-        myShip = SKSpriteNode(imageNamed: "Spaceship")
-        myShip.size = CGSize(width: shipWidth, height: shipHeight)
+        // add space ship
+        myShip = SpaceShip(x: 0, y: 0, width: shipWidth, height: shipHeight)
         myShip.position.y = self.frame.size.height * -0.3
-        myShip.zPosition = 100
-        myShip.physicsBody?.isDynamic = true
-        myShip.physicsBody?.affectedByGravity = false
-        myShip.physicsBody?.mass = 0.2
         myShipPosition = myShip.position
         planeLayer.addChild(myShip!)
         
-        let propeller = SKSpriteNode(imageNamed: "PropellerFire")
-        propeller.size = CGSize(width: 10, height: 30)
-        propeller.position.y -= shipHeight * 0.65
-        propeller.zPosition = -1
-        propeller.run(SKAction.repeatForever(SKAction.sequence([SKAction.move(by: CGVector(dx: 0, dy: 5), duration: 2), SKAction.move(by: CGVector(dx: 0, dy: -5), duration: 0.5)])))
-        myShip.addChild(propeller)
-
         planeLayer.position = layerPosition
         gameLayer.addChild(bulletLayer)
 
         addEnemys(x: 0, y: 0)
         addEnemys(x: 100, y: 0)
         addEnemys(x: -100, y: 0)
-        
+
         //view -+- background
         //      +- gameLayer -+- planeLayer -+- myShip
         //                    |
@@ -87,7 +79,7 @@ class GameScene: SKScene {
         //                    |               +- (classicBullets)
         //                    |               +- (laserBeam)
         //                    |
-        //                    +- enemyLayer
+        //                    +- enemyLayer -+- enemy(random 1~14)
         //                    |
         //                    +- Starfield.sks
         //                    +- Explosion.sks
@@ -146,8 +138,10 @@ class GameScene: SKScene {
         //shootShineBullets()
         //shootClassicBullets(level: 2)
         //shootThreeWayBullets(level: 1)
-        shootSevenWayBullets(level: 2)
+        //shootSevenWayBullets(level: 2)
         //shootLaserBeam(level: 3)
+        
+        shootWaveBullets(level: 4)
     }
     
     func didBegin(_ contact: SKPhysicsContact) {
@@ -166,6 +160,12 @@ class GameScene: SKScene {
         bulletLayer.addChild(bullet)
     }
     
+    // level = 1~4
+    func shootWaveBullets(level: Int) {
+        let bullet = WaveBullet(level: level, x: myShipPosition.x, y: myShipPosition.y, frameHeight: self.frame.size.height)
+        bulletLayer.addChild(bullet)
+    }
+
     // level = 1~4
     func shootThreeWayBullets(level: Int) {
         let bullet = ThreeWayBullet(level: level, x: myShipPosition.x, y: myShipPosition.y, frameHeight: self.frame.size.height)
@@ -190,8 +190,12 @@ class GameScene: SKScene {
     }
     
     func addEnemys(x: CGFloat, y: CGFloat) {
-        let enemy = Enemy(x: x, y: y)
-        enemyLayer.addChild(enemy)
+        enemy.append(Enemy(x: 0, y: 0))
+        enemy[enemyNo].position.x = x
+        enemy[enemyNo].position.y = y
+        enemy[enemyNo].serialNumber = enemyNo
+        enemyLayer.addChild(enemy[enemyNo])
+        enemyNo += 1
     }
 
     func collisionDetection() {
@@ -200,15 +204,27 @@ class GameScene: SKScene {
                 for bullet in bullets.children {
                     if !enemy.children.isEmpty {
                         if (bullet.intersects(enemy.children.first!)) {
-                            let explosion = SKEmitterNode(fileNamed: "Explosion")!
-                            explosion.position = enemy.children.first!.position
-                            gameLayer.addChild(explosion)
-                            gameLayer.run(SKAction.wait(forDuration: 1)) {
-                                explosion.removeFromParent()
+                            if enemy.defense! > (bullet.parent?.attack!)! {
+                                enemy.hp! -= 1
+                            } else {
+                                enemy.hp! = max(0, enemy.hp! - (bullet.parent?.attack!)!)
                             }
-                            enemy.removeFromParent()
-                            if bullet.parent?.name != "Laser" {
-                                bullet.removeFromParent()
+                            if enemy.hp! == 0 {
+                                let explosion = SKEmitterNode(fileNamed: "Explosion")!
+                                explosion.position = enemy.position
+                                gameLayer.addChild(explosion)
+                                gameLayer.run(SKAction.wait(forDuration: 1)) {
+                                    explosion.removeFromParent()
+                                }
+                                enemy.removeFromParent()
+                                if bullet.parent?.name != "Laser" {
+                                    bullet.removeFromParent()
+                                }
+                            } else {
+                                let healthBar = SKSpriteNode()
+                                updateHealthBar(node: healthBar, hp: enemy.hp!, maxHp: enemy.maxHp!)
+                                healthBar.position.y -= (enemy.children.first?.frame.height)!
+                                enemy.addChild(healthBar)
                             }
                         }
                     }
@@ -216,9 +232,106 @@ class GameScene: SKScene {
             }
         }
     }
+    
+    func updateHealthBar(node: SKSpriteNode, hp: Int, maxHp: Int) {
+        let healthBarWidth: CGFloat = 40
+        let healthBarHeight: CGFloat = 4
+        let barSize = CGSize(width: healthBarWidth, height: healthBarHeight);
+        
+        let fillColor = UIColor(red: CGFloat(maxHp - hp) / CGFloat(maxHp), green: CGFloat(hp) / CGFloat(maxHp), blue: 0.0/255, alpha:1)
+        let borderColor = UIColor(red: 35.0/255, green: 28.0/255, blue: 40.0/255, alpha:1)
+        
+        // create drawing context
+        UIGraphicsBeginImageContextWithOptions(barSize, false, 0)
+        let context = UIGraphicsGetCurrentContext()
+        
+        // draw the outline for the health bar
+        borderColor.setStroke()
+        let borderRect = CGRect(origin: .zero, size: barSize)
+        context!.stroke(borderRect, width: 1)
+        
+        // draw the health bar with a colored rectangle
+        fillColor.setFill()
+        let barWidth = (barSize.width - 1) * CGFloat(hp) / CGFloat(maxHp)
+        let barRect = CGRect(x: 0.5, y: 0.5, width: barWidth, height: barSize.height - 1)
+        context!.fill(barRect)
+        
+        // extract image
+        let spriteImage = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        
+        // set sprite texture and size
+        node.texture = SKTexture(image: spriteImage!)
+        node.size = barSize
+        node.zPosition = 300
+        
+        let showAction = SKAction.fadeOut(withDuration: 0.5)
+        node.run(SKAction.sequence([showAction, SKAction.removeFromParent()]))
+    }
+
 
 }
 
 func clamp<T: Comparable>(_ value: T, _ lower: T, _ upper: T) -> T {
     return min(max(value, lower), upper)
 }
+
+extension SKNode {
+    var hp: Int? {
+        get {
+            return userData?.value(forKey: "hp") as? Int
+        }
+        set(newValue) {
+            if userData == nil {
+                userData = NSMutableDictionary()
+            }
+            userData?.setValue(newValue, forKey: "hp")
+        }
+    }
+    var maxHp: Int? {
+        get {
+            return userData?.value(forKey: "maxHp") as? Int
+        }
+        set(newValue) {
+            if userData == nil {
+                userData = NSMutableDictionary()
+            }
+            userData?.setValue(newValue, forKey: "maxHp")
+        }
+    }
+    var attack: Int? {
+        get {
+            return userData?.value(forKey: "attack") as? Int
+        }
+        set(newValue) {
+            if userData == nil {
+                userData = NSMutableDictionary()
+            }
+            userData?.setValue(newValue, forKey: "attack")
+        }
+    }
+    var defense: Int? {
+        get {
+            return userData?.value(forKey: "defense") as? Int
+        }
+        set(newValue) {
+            if userData == nil {
+                userData = NSMutableDictionary()
+            }
+            userData?.setValue(newValue, forKey: "defense")
+        }
+    }
+    var serialNumber: Int? {
+        get {
+            return userData?.value(forKey: "serialNumber") as? Int
+        }
+        set(newValue) {
+            if userData == nil {
+                userData = NSMutableDictionary()
+            }
+            userData?.setValue(newValue, forKey: "serialNumber")
+        }
+    }
+}
+
+

@@ -31,6 +31,7 @@ class ShineBullet: SKNode {
 
         super.init()
         self.name = "Shine"
+        self.attack = 1
 
         bullet1.position = CGPoint(x: x - offset, y: y)
         bullet1.fillColor = UIColor.random()
@@ -82,6 +83,15 @@ class ClassicBullet: SKNode {
         
         super.init()
         self.name = "Classic"
+        if level == 1 {
+            self.attack = 10
+        } else if level == 2 {
+            self.attack = 20
+        } else if level == 3 {
+            self.attack = 30
+        } else if level == 4 {
+            self.attack = 40
+        }
 
         bullet.size = CGSize(width: width, height: height)
         bullet.position = CGPoint(x: x, y: y)
@@ -89,6 +99,72 @@ class ClassicBullet: SKNode {
 
         let moveAction = SKAction.moveTo(y: frameHeight, duration: TimeInterval(moveSpeed / frameHeight * (frameHeight - y)))
         bullet.run(SKAction.sequence([moveAction, SKAction.removeFromParent()]))
+    }
+}
+
+class WaveBullet: SKNode {
+    var bullet1: SKSpriteNode
+    var bullet2: SKSpriteNode
+    var bullet3: SKSpriteNode
+    var x: CGFloat = 0
+    var y: CGFloat = 0
+    var width: CGFloat = 10
+    var height: CGFloat = 10
+    var moveSpeed: CGFloat = 1.0
+    var amplitude: CGFloat = 0
+    var bulletName: String = "GreenBullet"
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    init(level: Int, x: CGFloat, y: CGFloat, frameHeight: CGFloat) {
+        if level == 1 {
+            amplitude = 20
+        } else if level == 2 {
+            amplitude = 40
+        } else if level == 3 {
+            amplitude = 60
+        } else if level == 4 {
+            amplitude = 80
+        }
+        bullet1 = SKSpriteNode.init(imageNamed: bulletName)
+        bullet2 = SKSpriteNode.init(imageNamed: bulletName)
+        bullet3 = SKSpriteNode.init(imageNamed: bulletName)
+
+        super.init()
+        self.name = "Wave"
+        if level == 1 {
+            self.attack = 3
+        } else if level == 2 {
+            self.attack = 6
+        } else if level == 3 {
+            self.attack = 9
+        } else if level == 4 {
+            self.attack = 12
+        }
+
+        bullet1.size = CGSize(width: width, height: height)
+        bullet2.size = CGSize(width: width, height: height)
+        bullet3.size = CGSize(width: width, height: height)
+        bullet1.position = CGPoint(x: x, y: y)
+        bullet2.position = CGPoint(x: x, y: y)
+        bullet3.position = CGPoint(x: x, y: y)
+        addChild(bullet1)
+        addChild(bullet2)
+        addChild(bullet3)
+
+        let oscillate1 = SKAction.oscillation1(amplitude: amplitude,
+                                               timePeriod: Double(moveSpeed),
+                                             midPoint: bullet1.position)
+        let oscillate2 = SKAction.oscillation2(amplitude: amplitude,
+                                               timePeriod: Double(moveSpeed),
+                                               midPoint: bullet2.position)
+        let moveAction = SKAction.moveTo(y: frameHeight, duration: TimeInterval(moveSpeed / frameHeight * (frameHeight - y)))
+
+        bullet1.run(SKAction.sequence([SKAction.group([oscillate1, moveAction]), SKAction.removeFromParent()]))
+        bullet2.run(SKAction.sequence([SKAction.group([oscillate2, moveAction]), SKAction.removeFromParent()]))
+        bullet3.run(SKAction.sequence([SKAction.group([moveAction]), SKAction.removeFromParent()]))
     }
 }
 
@@ -124,7 +200,16 @@ class ThreeWayBullet: SKNode {
 
         super.init()
         self.name = "ThreeWay"
-        
+        if level == 1 {
+            self.attack = 2
+        } else if level == 2 {
+            self.attack = 4
+        } else if level == 3 {
+            self.attack = 6
+        } else if level == 4 {
+            self.attack = 8
+        }
+
         //left
         bullet1.size = CGSize(width: width, height: height)
         bullet1.position = CGPoint(x: x, y: y)
@@ -170,7 +255,16 @@ class SevenWayBullet: SKNode {
         }
         super.init()
         self.name = "SevenWay"
-        
+        if level == 1 {
+            self.attack = 1
+        } else if level == 2 {
+            self.attack = 2
+        } else if level == 3 {
+            self.attack = 3
+        } else if level == 4 {
+            self.attack = 4
+        }
+
         for i in 0..<(level * 2 - 1) {
             bullet[i].size = CGSize(width: width, height: height)
             bullet[i].position = CGPoint(x: x, y: y)
@@ -205,6 +299,15 @@ class LaserBullet: SKNode {
 
         super.init()
         self.name = "Laser"
+        if level == 1 {
+            self.attack = 20
+        } else if level == 2 {
+            self.attack = 40
+        } else if level == 3 {
+            self.attack = 60
+        } else if level == 4 {
+            self.attack = 80
+        }
 
         bullet.lineWidth = 1
         bullet.glowWidth = CGFloat(level * 2)
@@ -237,5 +340,26 @@ extension UIColor {
     }
 }
 
+extension SKAction {
+    // amplitude  - the amount the height will vary by, set this to 200 in your case.
+    // timePeriod - the time it takes for one complete cycle
+    // midPoint   - the point around which the oscillation occurs.
+    static func oscillation1(amplitude a: CGFloat, timePeriod t: Double, midPoint: CGPoint) -> SKAction {
+        let action = SKAction.customAction(withDuration: t) { node, currentTime in
+            let displacement = a * sin(3 * CGFloat.pi * currentTime / CGFloat(t))
+            node.position.x = midPoint.x + displacement
+        }
+        return action
+    }
+    
+    static func oscillation2(amplitude a: CGFloat, timePeriod t: Double, midPoint: CGPoint) -> SKAction {
+        let action = SKAction.customAction(withDuration: t) { node, currentTime in
+            let displacement = a * sin(3 * CGFloat.pi * currentTime / CGFloat(t))
+            node.position.x = midPoint.x - displacement
+        }
+        return action
+    }
+
+}
 
 

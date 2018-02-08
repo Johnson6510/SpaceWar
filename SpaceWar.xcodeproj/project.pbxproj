@@ -9,9 +9,9 @@
 /* Begin PBXBuildFile section */
 		BD089FCE201B49C100B6EECC /* Explosion.sks in Resources */ = {isa = PBXBuildFile; fileRef = BD089FCD201B49C100B6EECC /* Explosion.sks */; };
 		BD089FD0201B4A0100B6EECC /* Starfield.sks in Resources */ = {isa = PBXBuildFile; fileRef = BD089FCF201B4A0100B6EECC /* Starfield.sks */; };
+		BD260477202B669C0018307B /* SpaceShip.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD260476202B669C0018307B /* SpaceShip.swift */; };
 		BDDE21B12028BC730055BDC1 /* Bullets.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDDE21B02028BC730055BDC1 /* Bullets.swift */; };
 		BDE430F52019F9FF001B2E97 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDE430F42019F9FF001B2E97 /* AppDelegate.swift */; };
-		BDE430F92019F9FF001B2E97 /* Actions.sks in Resources */ = {isa = PBXBuildFile; fileRef = BDE430F82019F9FF001B2E97 /* Actions.sks */; };
 		BDE430FB2019F9FF001B2E97 /* GameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDE430FA2019F9FF001B2E97 /* GameScene.swift */; };
 		BDE430FD2019F9FF001B2E97 /* GameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDE430FC2019F9FF001B2E97 /* GameViewController.swift */; };
 		BDE431002019F9FF001B2E97 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BDE430FE2019F9FF001B2E97 /* Main.storyboard */; };
@@ -23,10 +23,10 @@
 /* Begin PBXFileReference section */
 		BD089FCD201B49C100B6EECC /* Explosion.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = Explosion.sks; sourceTree = "<group>"; };
 		BD089FCF201B4A0100B6EECC /* Starfield.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = Starfield.sks; sourceTree = "<group>"; };
+		BD260476202B669C0018307B /* SpaceShip.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpaceShip.swift; sourceTree = "<group>"; };
 		BDDE21B02028BC730055BDC1 /* Bullets.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Bullets.swift; sourceTree = "<group>"; };
 		BDE430F12019F9FF001B2E97 /* SpaceWar.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SpaceWar.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		BDE430F42019F9FF001B2E97 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		BDE430F82019F9FF001B2E97 /* Actions.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = Actions.sks; sourceTree = "<group>"; };
 		BDE430FA2019F9FF001B2E97 /* GameScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameScene.swift; sourceTree = "<group>"; };
 		BDE430FC2019F9FF001B2E97 /* GameViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameViewController.swift; sourceTree = "<group>"; };
 		BDE430FF2019F9FF001B2E97 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -51,6 +51,7 @@
 			isa = PBXGroup;
 			children = (
 				BDDE21B02028BC730055BDC1 /* Bullets.swift */,
+				BD260476202B669C0018307B /* SpaceShip.swift */,
 				BDEC2B3D2029D95F0085E301 /* Enemy.swift */,
 			);
 			path = Module;
@@ -76,7 +77,6 @@
 			isa = PBXGroup;
 			children = (
 				BDE430F42019F9FF001B2E97 /* AppDelegate.swift */,
-				BDE430F82019F9FF001B2E97 /* Actions.sks */,
 				BDE430FA2019F9FF001B2E97 /* GameScene.swift */,
 				BDDE21B22028BC810055BDC1 /* Module */,
 				BDE430FC2019F9FF001B2E97 /* GameViewController.swift */,
@@ -153,7 +153,6 @@
 				BDE431002019F9FF001B2E97 /* Main.storyboard in Resources */,
 				BDE431022019F9FF001B2E97 /* Assets.xcassets in Resources */,
 				BDE431052019F9FF001B2E97 /* LaunchScreen.storyboard in Resources */,
-				BDE430F92019F9FF001B2E97 /* Actions.sks in Resources */,
 				BD089FCE201B49C100B6EECC /* Explosion.sks in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -165,6 +164,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BD260477202B669C0018307B /* SpaceShip.swift in Sources */,
 				BDE430FB2019F9FF001B2E97 /* GameScene.swift in Sources */,
 				BDEC2B3E2029D95F0085E301 /* Enemy.swift in Sources */,
 				BDE430FD2019F9FF001B2E97 /* GameViewController.swift in Sources */,
