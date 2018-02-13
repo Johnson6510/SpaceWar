@@ -12,10 +12,6 @@ class SpaceShip: SKNode {
     var ship: SKSpriteNode
     var propeller: SKSpriteNode
 
-    var x: CGFloat = 0
-    var y: CGFloat = 0
-    var width: CGFloat = 40
-    var height: CGFloat = 40
     var shipName: String = "Spaceship"
     var propellerName: String = "PropellerFire"
     var shipMaxHp = 1000
@@ -23,17 +19,17 @@ class SpaceShip: SKNode {
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
-    init(x: CGFloat, y: CGFloat, width: CGFloat, height: CGFloat) {
+
+    init(position: CGPoint, size: CGSize) {
         ship = SKSpriteNode.init(imageNamed: shipName)
         propeller = SKSpriteNode(imageNamed: propellerName)
         super.init()
         self.name = "Ship"
         self.hp = shipMaxHp
         self.maxHp = shipMaxHp
+        self.position = position
         
-        ship.size = CGSize(width: width, height: height)
-        ship.position = CGPoint(x: x, y: y)
+        ship.size = size
         ship.zPosition = 100
         ship.physicsBody?.isDynamic = true
         ship.physicsBody?.affectedByGravity = false
@@ -41,7 +37,7 @@ class SpaceShip: SKNode {
         addChild(ship)
         
         propeller.size = CGSize(width: 10, height: 30)
-        propeller.position.y -= height * 0.65
+        propeller.position.y -= size.height * 0.65
         propeller.zPosition = -1
         propeller.run(SKAction.repeatForever(SKAction.sequence([SKAction.move(by: CGVector(dx: 0, dy: 5), duration: 2), SKAction.move(by: CGVector(dx: 0, dy: -5), duration: 0.5)])))
         ship.addChild(propeller)

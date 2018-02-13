@@ -10,7 +10,11 @@
 		BD089FCE201B49C100B6EECC /* Explosion.sks in Resources */ = {isa = PBXBuildFile; fileRef = BD089FCD201B49C100B6EECC /* Explosion.sks */; };
 		BD089FD0201B4A0100B6EECC /* Starfield.sks in Resources */ = {isa = PBXBuildFile; fileRef = BD089FCF201B4A0100B6EECC /* Starfield.sks */; };
 		BD260477202B669C0018307B /* SpaceShip.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD260476202B669C0018307B /* SpaceShip.swift */; };
-		BDDE21B12028BC730055BDC1 /* Bullets.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDDE21B02028BC730055BDC1 /* Bullets.swift */; };
+		BD26EFFD20334FBA00AAA2DE /* EnemyBullets.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD26EFFC20334FBA00AAA2DE /* EnemyBullets.swift */; };
+		BD85925F20334D0D007C1F72 /* Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD85925E20334D0C007C1F72 /* Extension.swift */; };
+		BDBC7A8B2030E68700F13BDC /* TimerManger.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDBC7A8A2030E68700F13BDC /* TimerManger.swift */; };
+		BDBC7A8D2030E98500F13BDC /* EnemyMove.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDBC7A8C2030E98500F13BDC /* EnemyMove.swift */; };
+		BDDE21B12028BC730055BDC1 /* ShipBullets.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDDE21B02028BC730055BDC1 /* ShipBullets.swift */; };
 		BDE430F52019F9FF001B2E97 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDE430F42019F9FF001B2E97 /* AppDelegate.swift */; };
 		BDE430FB2019F9FF001B2E97 /* GameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDE430FA2019F9FF001B2E97 /* GameScene.swift */; };
 		BDE430FD2019F9FF001B2E97 /* GameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDE430FC2019F9FF001B2E97 /* GameViewController.swift */; };
@@ -24,7 +28,11 @@
 		BD089FCD201B49C100B6EECC /* Explosion.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = Explosion.sks; sourceTree = "<group>"; };
 		BD089FCF201B4A0100B6EECC /* Starfield.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = Starfield.sks; sourceTree = "<group>"; };
 		BD260476202B669C0018307B /* SpaceShip.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpaceShip.swift; sourceTree = "<group>"; };
-		BDDE21B02028BC730055BDC1 /* Bullets.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Bullets.swift; sourceTree = "<group>"; };
+		BD26EFFC20334FBA00AAA2DE /* EnemyBullets.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EnemyBullets.swift; sourceTree = "<group>"; };
+		BD85925E20334D0C007C1F72 /* Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extension.swift; sourceTree = "<group>"; };
+		BDBC7A8A2030E68700F13BDC /* TimerManger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimerManger.swift; sourceTree = "<group>"; };
+		BDBC7A8C2030E98500F13BDC /* EnemyMove.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnemyMove.swift; sourceTree = "<group>"; };
+		BDDE21B02028BC730055BDC1 /* ShipBullets.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShipBullets.swift; sourceTree = "<group>"; };
 		BDE430F12019F9FF001B2E97 /* SpaceWar.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SpaceWar.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		BDE430F42019F9FF001B2E97 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		BDE430FA2019F9FF001B2E97 /* GameScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameScene.swift; sourceTree = "<group>"; };
@@ -50,9 +58,13 @@
 		BDDE21B22028BC810055BDC1 /* Module */ = {
 			isa = PBXGroup;
 			children = (
-				BDDE21B02028BC730055BDC1 /* Bullets.swift */,
 				BD260476202B669C0018307B /* SpaceShip.swift */,
+				BDDE21B02028BC730055BDC1 /* ShipBullets.swift */,
 				BDEC2B3D2029D95F0085E301 /* Enemy.swift */,
+				BDBC7A8C2030E98500F13BDC /* EnemyMove.swift */,
+				BD26EFFC20334FBA00AAA2DE /* EnemyBullets.swift */,
+				BDBC7A8A2030E68700F13BDC /* TimerManger.swift */,
+				BD85925E20334D0C007C1F72 /* Extension.swift */,
 			);
 			path = Module;
 			sourceTree = "<group>";
@@ -164,12 +176,16 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BD26EFFD20334FBA00AAA2DE /* EnemyBullets.swift in Sources */,
+				BD85925F20334D0D007C1F72 /* Extension.swift in Sources */,
 				BD260477202B669C0018307B /* SpaceShip.swift in Sources */,
 				BDE430FB2019F9FF001B2E97 /* GameScene.swift in Sources */,
 				BDEC2B3E2029D95F0085E301 /* Enemy.swift in Sources */,
 				BDE430FD2019F9FF001B2E97 /* GameViewController.swift in Sources */,
+				BDBC7A8B2030E68700F13BDC /* TimerManger.swift in Sources */,
 				BDE430F52019F9FF001B2E97 /* AppDelegate.swift in Sources */,
-				BDDE21B12028BC730055BDC1 /* Bullets.swift in Sources */,
+				BDDE21B12028BC730055BDC1 /* ShipBullets.swift in Sources */,
+				BDBC7A8D2030E98500F13BDC /* EnemyMove.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

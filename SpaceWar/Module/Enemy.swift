@@ -9,8 +9,7 @@
 import SpriteKit
 
 let maxEnemies = 14
-
-enum enemyType: Int, CustomStringConvertible{
+enum enemyType: Int, CustomStringConvertible {
     var description: String {
         return enemyName
     }
@@ -46,7 +45,6 @@ enum enemyType: Int, CustomStringConvertible{
             "alien12",
             "alien13",
             "alien14"]
-        
         return enemyName[rawValue - 1]
     }
 
@@ -55,11 +53,55 @@ enum enemyType: Int, CustomStringConvertible{
     }
 }
 
+let maxMode = 3
+enum enemyMode: Int, CustomStringConvertible {
+    var description: String {
+        return modeName
+    }
+    
+    case down = 1
+    case unstable = 2
+    case wave = 3
+    
+    var modeName: String {
+        let modeName = [
+            "Down",
+            "Random",
+            "Wave"]
+        return modeName[rawValue - 1]
+    }
+    
+    static func random(_ dice: Int) -> enemyMode {
+        return enemyMode(rawValue: Int(arc4random_uniform(UInt32(dice))) + 1)!
+    }
+}
+
+let maxType = 3
+enum bulletType: Int, CustomStringConvertible {
+    var description: String {
+        return modeName
+    }
+    
+    case linner = 1
+    case eightWay = 2
+    case threeWat = 3
+    
+    var modeName: String {
+        let modeName = [
+            "Down",
+            "Random",
+            "Wave"]
+        return modeName[rawValue - 1]
+    }
+    
+    static func random(_ dice: Int) -> bulletType {
+        return bulletType(rawValue: Int(arc4random_uniform(UInt32(dice))) + 1)!
+    }
+}
+
 class Enemy: SKNode {
     var enemy: SKSpriteNode
 
-    var x: CGFloat = 0
-    var y: CGFloat = 0
     var width: CGFloat = 40
     var height: CGFloat = 40
     var enemyName: String = "alien01"
@@ -68,7 +110,7 @@ class Enemy: SKNode {
         fatalError("init(coder:) has not been implemented")
     }
     
-    init(x: CGFloat, y: CGFloat) {
+    override init() {
         enemyName = String(describing: enemyType.random(maxEnemies))
         enemy = SKSpriteNode.init(imageNamed: enemyName)
         
@@ -77,9 +119,10 @@ class Enemy: SKNode {
         self.hp = 1000
         self.maxHp = 1000
         self.defense = 10
+        self.moveMode = enemyMode.random(maxMode)
         
         enemy.size = CGSize(width: width, height: height)
-        enemy.position = CGPoint(x: x, y: y)
         addChild(enemy)
     }
 }
+
