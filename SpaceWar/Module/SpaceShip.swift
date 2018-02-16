@@ -28,7 +28,8 @@ class SpaceShip: SKNode {
         self.hp = shipMaxHp
         self.maxHp = shipMaxHp
         self.position = position
-        
+        self.defense = 100
+
         ship.size = size
         ship.zPosition = 100
         ship.physicsBody?.isDynamic = true

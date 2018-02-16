@@ -11,6 +11,7 @@ import GameplayKit
 
 class GameScene: SKScene {
     
+    private var bg: Background?
     private var starfield: SKEmitterNode!
 
     let gameLayer = SKNode()
@@ -21,6 +22,7 @@ class GameScene: SKScene {
 
     private var myShip: SKNode!
     private var laserBeam: SKNode?
+    var sequenceBullet: SequenceBullet?
     private var myShipPosition = CGPoint(x: 0, y: 0)
 
     private var enemy = [SKNode]()
@@ -34,9 +36,11 @@ class GameScene: SKScene {
 
     let timerManager = TimerManager()
     var planeTimer: Int?
+    var enemyBirthTimer: Int?
     var enemyTimer: Int?
 
     private var bulletReloadSpeed: TimeInterval = 0.01
+    private var enemyBirthInterval: TimeInterval = 5.0
     private var enemyInterval: TimeInterval = 1.0
 
     required init?(coder aDecoder: NSCoder) {
@@ -45,13 +49,11 @@ class GameScene: SKScene {
 
     override init(size: CGSize) {
         super.init(size: size)
-        
-        anchorPoint = CGPoint(x: 0.5, y: 0.5)
 
-        let background = SKSpriteNode(imageNamed: "background")
-        background.size = size
-        background.zPosition = -1
-        addChild(background)
+        bg = Background(parent: self)
+        bg?.setupBackgroup()
+
+        anchorPoint = CGPoint(x: 0.5, y: 0.5)
 
         addChild(gameLayer)
         
@@ -73,12 +75,14 @@ class GameScene: SKScene {
         gameLayer.addChild(bulletLayer)
         gameLayer.addChild(enemyBulletLayer)
         
-        addEnemys()
-        enemyTimer = timerManager.startTimer(interval: enemyInterval, target: self, selector: #selector(enemyMoveAtcion))
-        
+        sequenceBullet = SequenceBullet(parent: self, layer: bulletLayer)
 
-        addEnemys()
-        addEnemys()
+        enemyBirthTimer = timerManager.startTimer(interval: enemyBirthInterval, target: self, selector: #selector(addEnemys))
+        //addEnemys()
+        //addEnemys()
+        //addEnemys()
+
+        enemyTimer = timerManager.startTimer(interval: enemyInterval, target: self, selector: #selector(enemyMoveAtcion))
 
         //view -+- background
         //      +- gameLayer -+- planeLayer -+- myShip
@@ -99,18 +103,18 @@ class GameScene: SKScene {
     }
     
     override func didMove(to view: SKView) {
+        // 2nd background
         starfield = SKEmitterNode(fileNamed: "Starfield")
         starfield.position = CGPoint(x: 0, y: 1472)
         starfield.advanceSimulationTime(10)
         gameLayer.addChild(starfield)
-        
         starfield.zPosition = 0
     }
     
     override func update(_ currentTime: TimeInterval) {
         // Called before each frame is rendered
+        bg?.scrollBackground()
         collisionDetection()
-
     }
 
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -147,42 +151,35 @@ class GameScene: SKScene {
     @objc func shootBullets() {
         //shootShineBullets(level: 4)
         //shootClassicBullets(level: 2)
-        shootThreeWayBullets(level: 1)
+        //shootThreeWayBullets(level: 1)
         //shootSevenWayBullets(level: 4)
         //shootLaserBeam(level: 3)
+        shootMissile(level: 4)
         //shootWaveBullets(level: 4)
+        //shootSequenceBullets(level: 4)
+        //shootMatrixBullets(level: 4)
     }
     
     func shootShineBullets(level: Int) {
-        let bullet = ShineBullet(parent: self, level: level, x: myShipPosition.x, y: myShipPosition.y)
-        bulletLayer.addChild(bullet)
+        _ = ShineBullet(parent: self, layer: bulletLayer, level: level, x: myShipPosition.x, y: myShipPosition.y)
     }
 
-    // level = 1~4
     func shootClassicBullets(level: Int) {
-        let bullet = ClassicBullet(parent: self, level: level, x: myShipPosition.x, y: myShipPosition.y)
-        bulletLayer.addChild(bullet)
+        _ = ClassicBullet(parent: self, layer: bulletLayer, level: level, x: myShipPosition.x, y: myShipPosition.y)
     }
     
-    // level = 1~4
     func shootWaveBullets(level: Int) {
-        let bullet = WaveBullet(parent: self, level: level, x: myShipPosition.x, y: myShipPosition.y)
-        bulletLayer.addChild(bullet)
+        _ = WaveBullet(parent: self, layer: bulletLayer, level: level, x: myShipPosition.x, y: myShipPosition.y)
     }
 
-    // level = 1~4
     func shootThreeWayBullets(level: Int) {
-        let bullet = ThreeWayBullet(parent: self, level: level, x: myShipPosition.x, y: myShipPosition.y)
-        bulletLayer.addChild(bullet)
+        _ = ThreeWayBullet(parent: self, layer: bulletLayer, level: level, x: myShipPosition.x, y: myShipPosition.y)
     }
 
-    // level = 1~4
     func shootSevenWayBullets(level: Int) {
-        let bullet = SevenWayBullet(parent: self, level: level, x: myShipPosition.x, y: myShipPosition.y)
-        bulletLayer.addChild(bullet)
+        _ = SevenWayBullet(parent: self, layer: bulletLayer, level: level, x: myShipPosition.x, y: myShipPosition.y)
     }
     
-    // level = 1~4
     func shootLaserBeam(level: Int) {
         if laserBeam == nil {
             laserBeam = LaserBullet(parent: self, level: level)
@@ -193,7 +190,19 @@ class GameScene: SKScene {
         }
     }
     
-    func addEnemys() {
+    func shootSequenceBullets(level: Int) {
+        sequenceBullet?.shoot(level: level, x: myShipPosition.x, y: myShipPosition.y)
+    }
+
+    func shootMissile(level: Int) {
+        _ = Missile(parent: self, layer: bulletLayer, level: level, x: myShipPosition.x, y: myShipPosition.y)
+    }
+    
+    func shootMatrixBullets(level: Int) {
+        _ = MatrixBullet(parent: self, layer: bulletLayer, level: level, x: myShipPosition.x, y: myShipPosition.y)
+    }
+
+    @objc func addEnemys() {
         let tempEnemy = Enemy()
         randomPosition(node: tempEnemy)
         enemy.append(tempEnemy)
@@ -227,10 +236,24 @@ class GameScene: SKScene {
                     enemyMoveRandom(enemy: enemy)
                 case .wave?:
                     enemyMoveWave(enemy: enemy)
+                case .slope?:
+                    enemyMoveSlope(enemy: enemy)
                 default:
                     break
                 }
-                shootEnemyLinnerBullets(enemy: enemy, level: 1)
+                
+                switch(enemy.bulletType) {
+                case enemyBulletType.linner.rawValue?:
+                    shootEnemyLinnerBullets(enemy: enemy, level: 4)
+                case enemyBulletType.fourWayType1.rawValue?:
+                    shootEnemyFourWayBullet1(enemy: enemy, level: 4)
+                case enemyBulletType.eightWay.rawValue?:
+                    shootEnemyEightWayBullet(enemy: enemy, level: 4)
+                case enemyBulletType.snipe.rawValue?:
+                    shootEnemySnipeBullet(enemy: enemy, level: 4)
+                default:
+                    break
+                }
             }
         }
     }
@@ -251,14 +274,31 @@ class GameScene: SKScene {
         enemy.run(enemyMove.moveWave(interval: enemyInterval, detial: 3, amplitude: 10))
     }
     
-    // level = 1~4
+    func enemyMoveSlope(enemy: SKNode) {
+        let detialX = CGFloat(arc4random() % 40) - 20
+        enemy.run(enemyMove.moveSlope(interval: enemyInterval, detialX: detialX, detialY: 50))
+    }
+
     func shootEnemyLinnerBullets(enemy: SKNode, level: Int) {
-        let bullet = EnemyLinnerBullet(parent: self, level: level, x: enemy.position.x, y: enemy.position.y)
-        bullet.zPosition = -1
-        enemyBulletLayer.addChild(bullet)
+        _ = EnemyLinnerBullet(parent: self, layer: enemyBulletLayer, level: level, x: enemy.position.x, y: enemy.position.y)
+    }
+    
+    func shootEnemyFourWayBullet1(enemy: SKNode, level: Int) {
+        _ = EnemyFourBullet1(parent: self, layer: enemyBulletLayer, level: level, x: enemy.position.x, y: enemy.position.y)
+        //bullet.zPosition = -1
+    }
+
+
+    func shootEnemyEightWayBullet(enemy: SKNode, level: Int) {
+        _ = EnemyEightWayBullet(parent: self, layer: enemyBulletLayer, level: level, x: enemy.position.x, y: enemy.position.y)
+    }
+    
+    func shootEnemySnipeBullet(enemy: SKNode, level: Int) {
+        _ = EnemySnipeBullet(parent: self, layer: enemyBulletLayer, target: myShipPosition, level: level, x: enemy.position.x, y: enemy.position.y)
     }
 
     func collisionDetection() {
+        //enemy
         for enemy in enemyLayer.children {
             for bullets in bulletLayer.children {
                 for bullet in bullets.children {
@@ -278,19 +318,48 @@ class GameScene: SKScene {
                                 }
                                 enemy.removeFromParent()
                             } else {
-                                if bullet.parent?.name != "Laser" {
-                                    bullet.removeFromParent()
-                                }
                                 let healthBar = SKSpriteNode()
                                 updateHealthBar(node: healthBar, hp: enemy.hp!, maxHp: enemy.maxHp!)
                                 healthBar.position.y -= (enemy.children.first?.frame.height)!
                                 enemy.addChild(healthBar)
+                            }
+                            if bullet.parent?.name != "Laser" {
+                                bullet.removeFromParent()
                             }
                         }
                     }
                 }
             }
         }
+        
+        //space ship
+        for bullets in enemyBulletLayer.children {
+            for bullet in bullets.children {
+                if (bullet.intersects(myShip.children.first!)) {
+                    if myShip.defense! > (bullet.parent?.attack!)! {
+                        myShip.hp! -= 1
+                    } else {
+                        myShip.hp! = max(0, myShip.hp! - (bullet.parent?.attack!)!)
+                    }
+                    if myShip.hp! == 0 {
+                        let explosion = SKEmitterNode(fileNamed: "Explosion")!
+                        explosion.position = myShip.position
+                        gameLayer.addChild(explosion)
+                        gameLayer.run(SKAction.wait(forDuration: 1)) {
+                            explosion.removeFromParent()
+                        }
+                        myShip.removeFromParent()
+                    } else {
+                        let healthBar = SKSpriteNode()
+                        updateHealthBar(node: healthBar, hp: myShip.hp!, maxHp: myShip.maxHp!)
+                        healthBar.position.y -= (myShip.children.first?.frame.height)!
+                        myShip.addChild(healthBar)
+                    }
+                    bullet.removeFromParent()
+                }
+            }
+        }
+
     }
     
     func updateHealthBar(node: SKSpriteNode, hp: Int, maxHp: Int) {

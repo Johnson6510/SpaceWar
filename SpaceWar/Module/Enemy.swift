@@ -53,7 +53,7 @@ enum enemyType: Int, CustomStringConvertible {
     }
 }
 
-let maxMode = 3
+let maxMode = 4
 enum enemyMode: Int, CustomStringConvertible {
     var description: String {
         return modeName
@@ -62,12 +62,14 @@ enum enemyMode: Int, CustomStringConvertible {
     case down = 1
     case unstable = 2
     case wave = 3
-    
+    case slope = 4
+
     var modeName: String {
         let modeName = [
             "Down",
             "Random",
-            "Wave"]
+            "Wave",
+            "Slope"]
         return modeName[rawValue - 1]
     }
     
@@ -76,26 +78,28 @@ enum enemyMode: Int, CustomStringConvertible {
     }
 }
 
-let maxType = 3
-enum bulletType: Int, CustomStringConvertible {
+let maxType = 4
+enum enemyBulletType: Int, CustomStringConvertible {
     var description: String {
-        return modeName
+        return bulletName
     }
     
     case linner = 1
-    case eightWay = 2
-    case threeWat = 3
-    
-    var modeName: String {
-        let modeName = [
-            "Down",
-            "Random",
-            "Wave"]
-        return modeName[rawValue - 1]
+    case fourWayType1 = 2
+    case eightWay = 3
+    case snipe = 4
+
+    var bulletName: String {
+        let bulletName = [
+            "Linner",
+            "EnemyFourBullet1",
+            "EightWay",
+            "Snipe"]
+        return bulletName[rawValue - 1]
     }
     
-    static func random(_ dice: Int) -> bulletType {
-        return bulletType(rawValue: Int(arc4random_uniform(UInt32(dice))) + 1)!
+    static func random(_ dice: Int) -> enemyBulletType {
+        return enemyBulletType(rawValue: Int(arc4random_uniform(UInt32(dice))) + 1)!
     }
 }
 
@@ -120,6 +124,7 @@ class Enemy: SKNode {
         self.maxHp = 1000
         self.defense = 10
         self.moveMode = enemyMode.random(maxMode)
+        self.bulletType = enemyBulletType.random(maxType).rawValue
         
         enemy.size = CGSize(width: width, height: height)
         addChild(enemy)

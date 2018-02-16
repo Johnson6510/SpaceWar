@@ -37,5 +37,14 @@ class EnemyMove: SKAction {
         return action
     }
 
+    func moveSlope(interval: TimeInterval, detialX x: CGFloat, detialY y: CGFloat) -> SKAction {
+        let detial = CGVector(dx: x, dy: -y)
+        let angle = atan2(x, y)
+        let actionRotate = SKAction.rotate(toAngle: angle, duration: 0)
+        let actionMove = SKAction.move(by: detial, duration: interval)
+        actionMove.timingMode = .linear
+        return SKAction.sequence([actionRotate, actionMove])
+    }
+
 }
 

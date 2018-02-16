@@ -22,6 +22,7 @@
 		BDE431022019F9FF001B2E97 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BDE431012019F9FF001B2E97 /* Assets.xcassets */; };
 		BDE431052019F9FF001B2E97 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BDE431032019F9FF001B2E97 /* LaunchScreen.storyboard */; };
 		BDEC2B3E2029D95F0085E301 /* Enemy.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDEC2B3D2029D95F0085E301 /* Enemy.swift */; };
+		BDEF664D203468B000FAB556 /* ScrollBackground.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDEF664C203468B000FAB556 /* ScrollBackground.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -42,6 +43,7 @@
 		BDE431042019F9FF001B2E97 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		BDE431062019F9FF001B2E97 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		BDEC2B3D2029D95F0085E301 /* Enemy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Enemy.swift; sourceTree = "<group>"; };
+		BDEF664C203468B000FAB556 /* ScrollBackground.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScrollBackground.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -65,6 +67,7 @@
 				BD26EFFC20334FBA00AAA2DE /* EnemyBullets.swift */,
 				BDBC7A8A2030E68700F13BDC /* TimerManger.swift */,
 				BD85925E20334D0C007C1F72 /* Extension.swift */,
+				BDEF664C203468B000FAB556 /* ScrollBackground.swift */,
 			);
 			path = Module;
 			sourceTree = "<group>";
@@ -182,6 +185,7 @@
 				BDE430FB2019F9FF001B2E97 /* GameScene.swift in Sources */,
 				BDEC2B3E2029D95F0085E301 /* Enemy.swift in Sources */,
 				BDE430FD2019F9FF001B2E97 /* GameViewController.swift in Sources */,
+				BDEF664D203468B000FAB556 /* ScrollBackground.swift in Sources */,
 				BDBC7A8B2030E68700F13BDC /* TimerManger.swift in Sources */,
 				BDE430F52019F9FF001B2E97 /* AppDelegate.swift in Sources */,
 				BDDE21B12028BC730055BDC1 /* ShipBullets.swift in Sources */,
