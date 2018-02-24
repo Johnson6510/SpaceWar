@@ -51,8 +51,14 @@ class GameScene: SKScene {
         super.init(size: size)
 
         bg = Background(parent: self)
-        bg?.setupBackgroup()
+        //bg?.setup(imageNamed: "BuleSky")
+        bg?.setup(imageNamed: "Space0")
+        //bg?.setup(imageNamed: "Space1")
+        //bg?.setup(imageNamed: "Space3")
+        //bg?.setup(imageNamed: "Ground")
 
+        bg?.spaceBackground2nd()
+        
         anchorPoint = CGPoint(x: 0.5, y: 0.5)
 
         addChild(gameLayer)
@@ -103,17 +109,11 @@ class GameScene: SKScene {
     }
     
     override func didMove(to view: SKView) {
-        // 2nd background
-        starfield = SKEmitterNode(fileNamed: "Starfield")
-        starfield.position = CGPoint(x: 0, y: 1472)
-        starfield.advanceSimulationTime(10)
-        gameLayer.addChild(starfield)
-        starfield.zPosition = 0
     }
     
     override func update(_ currentTime: TimeInterval) {
         // Called before each frame is rendered
-        bg?.scrollBackground()
+        bg?.scroll(speed: 3)
         collisionDetection()
     }
 
@@ -150,14 +150,14 @@ class GameScene: SKScene {
     
     @objc func shootBullets() {
         //shootShineBullets(level: 4)
-        //shootClassicBullets(level: 2)
-        //shootThreeWayBullets(level: 1)
+        //shootClassicBullets(level: 4)
+        //shootThreeWayBullets(level: 4)
         //shootSevenWayBullets(level: 4)
         //shootLaserBeam(level: 3)
-        shootMissile(level: 4)
+        //shootMissile(level: 4)
         //shootWaveBullets(level: 4)
         //shootSequenceBullets(level: 4)
-        //shootMatrixBullets(level: 4)
+        shootMatrixBullets(level: 4)
     }
     
     func shootShineBullets(level: Int) {
@@ -331,6 +331,16 @@ class GameScene: SKScene {
                 }
             }
         }
+     
+        //remove enemy when out of window
+        for enemy in enemyLayer.children {
+            if !enemy.children.isEmpty {
+                if enemy.position.x < -self.frame.size.width / 2 - 30 || enemy.position.x > self.frame.size.width / 2 + 30 || enemy.position.y < -self.frame.size.height / 2 - 30 {
+                    enemy.removeFromParent()
+                }
+            }
+        }
+
         
         //space ship
         for bullets in enemyBulletLayer.children {

@@ -201,13 +201,12 @@ class EnemySnipeBullet: SKNode {
         //target
         let moveAction = SKAction.move(to: target, duration: TimeInterval(moveSpeed))
         moveAction.timingMode = .easeOut
-        let rotateAction = SKAction.rotate(toAngle: 16 * CGFloat.pi, duration: TimeInterval(moveSpeed))
+        let rotateAction = SKAction.rotate(toAngle: 8 * CGFloat.pi, duration: TimeInterval(moveSpeed))
         let action = SKAction.group([moveAction, rotateAction])
         bullet.run(SKAction.sequence([action, SKAction.removeFromParent()]))
         self.run(SKAction.wait(forDuration: TimeInterval(moveSpeed)), completion: {
             self.removeFromParent()
         })
-        
     }
 }
 

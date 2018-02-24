@@ -16,9 +16,9 @@ class Background {
         self.parent = parent
     }
     
-    var scrollPos = 0
-    func scrollBackground() {
-        scrollPos += 1
+    var scrollPos: CGFloat = 0
+    func scroll(speed: CGFloat) {
+        scrollPos += speed
         var restore = false
         if CGFloat(scrollPos) > bgHeight {
             scrollPos = 0
@@ -26,23 +26,25 @@ class Background {
         }
         
         parent?.enumerateChildNodes(withName: "*") { node, stop in
-            if let name = node.name {
-                if name == "background" {
-                    if restore {
-                        node.position.y += self.bgHeight
-                    }
-                    else {
-                        node.position.y -= 1
-                    }
+            if node.name == "background" {
+                if restore {
+                    node.position.y += self.bgHeight
+                }
+                else {
+                    node.position.y -= speed
                 }
             }
         }
     }
     
-    func setupBackgroup() {
+    func setup(imageNamed: String) {
         for row in 0...2 {
             for col in 0...1 {
-                let bg = SKSpriteNode(imageNamed: "background")
+                //let bg = SKSpriteNode(imageNamed: "background")
+                //let bg = SKSpriteNode(imageNamed: "RepeatableSpaceBackground")
+                //let bg = SKSpriteNode(imageNamed: "BuleSky")
+                let bg = SKSpriteNode(imageNamed: imageNamed)
+
                 //bg.xScale = 4.0
                 //bg.yScale = 4.0
                 bg.anchorPoint = CGPoint(x: 0.5, y: 0.5) //CGPoint.zero
@@ -55,5 +57,12 @@ class Background {
         }
     }
     
+    func spaceBackground2nd() {
+        let starfield = SKEmitterNode(fileNamed: "Starfield")
+        starfield?.position = CGPoint(x: 0, y: 1472)
+        starfield?.advanceSimulationTime(10)
+        parent?.addChild(starfield!)
+        starfield?.zPosition = 0
+    }
 }
 

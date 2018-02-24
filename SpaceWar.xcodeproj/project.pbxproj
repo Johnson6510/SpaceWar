@@ -23,6 +23,8 @@
 		BDE431052019F9FF001B2E97 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BDE431032019F9FF001B2E97 /* LaunchScreen.storyboard */; };
 		BDEC2B3E2029D95F0085E301 /* Enemy.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDEC2B3D2029D95F0085E301 /* Enemy.swift */; };
 		BDEF664D203468B000FAB556 /* ScrollBackground.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDEF664C203468B000FAB556 /* ScrollBackground.swift */; };
+		BDF2510120415B9B00DC8B20 /* smoke.scnp in Resources */ = {isa = PBXBuildFile; fileRef = BDF2510020415B9B00DC8B20 /* smoke.scnp */; };
+		BDF251052041D4A200DC8B20 /* Smoke.sks in Resources */ = {isa = PBXBuildFile; fileRef = BDF251042041D4A200DC8B20 /* Smoke.sks */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -44,6 +46,8 @@
 		BDE431062019F9FF001B2E97 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		BDEC2B3D2029D95F0085E301 /* Enemy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Enemy.swift; sourceTree = "<group>"; };
 		BDEF664C203468B000FAB556 /* ScrollBackground.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScrollBackground.swift; sourceTree = "<group>"; };
+		BDF2510020415B9B00DC8B20 /* smoke.scnp */ = {isa = PBXFileReference; lastKnownFileType = file.scp; path = smoke.scnp; sourceTree = "<group>"; };
+		BDF251042041D4A200DC8B20 /* Smoke.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = Smoke.sks; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -68,6 +72,7 @@
 				BDBC7A8A2030E68700F13BDC /* TimerManger.swift */,
 				BD85925E20334D0C007C1F72 /* Extension.swift */,
 				BDEF664C203468B000FAB556 /* ScrollBackground.swift */,
+				BDF2510020415B9B00DC8B20 /* smoke.scnp */,
 			);
 			path = Module;
 			sourceTree = "<group>";
@@ -100,6 +105,7 @@
 				BDE431032019F9FF001B2E97 /* LaunchScreen.storyboard */,
 				BDE431062019F9FF001B2E97 /* Info.plist */,
 				BD089FCD201B49C100B6EECC /* Explosion.sks */,
+				BDF251042041D4A200DC8B20 /* Smoke.sks */,
 				BD089FCF201B4A0100B6EECC /* Starfield.sks */,
 			);
 			path = SpaceWar;
@@ -166,9 +172,11 @@
 			files = (
 				BD089FD0201B4A0100B6EECC /* Starfield.sks in Resources */,
 				BDE431002019F9FF001B2E97 /* Main.storyboard in Resources */,
+				BDF251052041D4A200DC8B20 /* Smoke.sks in Resources */,
 				BDE431022019F9FF001B2E97 /* Assets.xcassets in Resources */,
 				BDE431052019F9FF001B2E97 /* LaunchScreen.storyboard in Resources */,
 				BD089FCE201B49C100B6EECC /* Explosion.sks in Resources */,
+				BDF2510120415B9B00DC8B20 /* smoke.scnp in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

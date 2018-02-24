@@ -19,13 +19,13 @@ class ShineBullet: SKNode {
     
     init(parent: SKScene, layer: SKNode, level: Int, x: CGFloat, y: CGFloat) {
         if level == 1 {
-            width = 7
+            width = 10
         } else if level == 2 {
-            width = 9
+            width = 20
         } else if level == 3 {
-            width = 11
+            width = 30
         } else if level == 4 {
-            width = 13
+            width = 40
         }
         let bullet1 = SKShapeNode.init(rectOf: CGSize.init(width: width, height: width), cornerRadius: width * 0.3)
         let bullet2 = SKShapeNode.init(rectOf: CGSize.init(width: width, height: width), cornerRadius: width * 0.3)
@@ -151,13 +151,13 @@ class ClassicBullet: SKNode {
         super.init()
         self.name = "ClassicBullet"
         if level == 1 {
-            self.attack = 10
-        } else if level == 2 {
             self.attack = 20
-        } else if level == 3 {
-            self.attack = 30
-        } else if level == 4 {
+        } else if level == 2 {
             self.attack = 40
+        } else if level == 3 {
+            self.attack = 60
+        } else if level == 4 {
+            self.attack = 80
         }
 
         bullet.size = CGSize(width: width, height: height)
@@ -175,11 +175,11 @@ class ClassicBullet: SKNode {
 }
 
 class WaveBullet: SKNode {
-    var width: CGFloat = 10
-    var height: CGFloat = 10
+    var width: CGFloat = 20
+    var height: CGFloat = 20
     var moveSpeed: CGFloat = 1.0
     var amplitude: CGFloat = 0
-    var bulletName: String = "GreenBullet"
+    var bulletName: String = "CrossBulletLv1"
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
@@ -202,13 +202,13 @@ class WaveBullet: SKNode {
         super.init()
         self.name = "WaveBullet"
         if level == 1 {
-            self.attack = 3
+            self.attack = 10
         } else if level == 2 {
-            self.attack = 6
+            self.attack = 20
         } else if level == 3 {
-            self.attack = 9
+            self.attack = 30
         } else if level == 4 {
-            self.attack = 12
+            self.attack = 40
         }
 
         bullet1.size = CGSize(width: width, height: height)
@@ -269,13 +269,13 @@ class ThreeWayBullet: SKNode {
         super.init()
         self.name = "ThreeWayBullet"
         if level == 1 {
-            self.attack = 2
-        } else if level == 2 {
-            self.attack = 4
-        } else if level == 3 {
-            self.attack = 6
-        } else if level == 4 {
             self.attack = 8
+        } else if level == 2 {
+            self.attack = 16
+        } else if level == 3 {
+            self.attack = 24
+        } else if level == 4 {
+            self.attack = 32
         }
 
         //left
@@ -300,9 +300,9 @@ class ThreeWayBullet: SKNode {
         let frameSize = parent.frame.size
         let duration = TimeInterval(moveSpeed / frameSize.height * (frameSize.height - y))
         let degree = CGFloat.pi * 15 / 180
-        let moveAction1 = SKAction.move(to: CGPoint(x: -degree * frameSize.width + x, y: frameSize.height + y), duration: duration)
-        let moveAction2 = SKAction.moveTo(y: frameSize.height + y, duration: duration)
-        let moveAction3 = SKAction.move(to: CGPoint(x: degree * frameSize.width + x, y: frameSize.height + y), duration: duration)
+        let moveAction1 = SKAction.move(to: CGPoint(x: -degree * frameSize.width * 2 + x, y: frameSize.height * 2 + y), duration: duration)
+        let moveAction2 = SKAction.moveTo(y: frameSize.height * 2 + y, duration: duration)
+        let moveAction3 = SKAction.move(to: CGPoint(x: degree * frameSize.width * 2 + x, y: frameSize.height * 2 + y), duration: duration)
         bullet1.run(SKAction.sequence([moveAction1, SKAction.removeFromParent()]))
         bullet2.run(SKAction.sequence([moveAction2, SKAction.removeFromParent()]))
         bullet3.run(SKAction.sequence([moveAction3, SKAction.removeFromParent()]))
@@ -314,10 +314,10 @@ class ThreeWayBullet: SKNode {
 
 class SevenWayBullet: SKNode {
     var bullet = [SKSpriteNode]()
-    var width: CGFloat = 8
-    var height: CGFloat = 8
+    var width: CGFloat = 10
+    var height: CGFloat = 20
     var moveSpeed: CGFloat = 1.0
-    var bulletName: String = "FiveWayBullet"
+    var bulletName: String = "FireBulletLv2"
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
@@ -330,13 +330,13 @@ class SevenWayBullet: SKNode {
         super.init()
         self.name = "SevenWayBullet"
         if level == 1 {
-            self.attack = 1
+            self.attack = 5
         } else if level == 2 {
-            self.attack = 2
+            self.attack = 10
         } else if level == 3 {
-            self.attack = 3
+            self.attack = 15
         } else if level == 4 {
-            self.attack = 4
+            self.attack = 20
         }
 
         for i in 0..<(level * 2 - 1) {
@@ -348,13 +348,13 @@ class SevenWayBullet: SKNode {
             let duration = TimeInterval(moveSpeed / frameSize.height * (frameSize.height - y))
             var moveAction = SKAction()
             if i == 0 { // 0
-                moveAction = SKAction.moveTo(y: frameSize.height + y, duration: duration)
+                moveAction = SKAction.moveTo(y: frameSize.height * 2 + y, duration: duration)
             } else if i % 2 == 1 { // 1, 3, 5
                 let degree = -CGFloat.pi * CGFloat((i + 1) / 2) / 30
-                moveAction = SKAction.move(to: CGPoint(x: degree * frameSize.width + x, y: frameSize.height + y), duration: duration)
+                moveAction = SKAction.move(to: CGPoint(x: degree * frameSize.width * 2 + x, y: frameSize.height * 2 + y), duration: duration)
             } else if i % 2 == 0 { // 2, 4, 6
                 let degree = CGFloat.pi * CGFloat(i / 2) / 30
-                moveAction = SKAction.move(to: CGPoint(x: degree * frameSize.width + x, y: frameSize.height + y), duration: duration)
+                moveAction = SKAction.move(to: CGPoint(x: degree * frameSize.width * 2 + x, y: frameSize.height * 2 + y), duration: duration)
             }
             bullet[i].run(SKAction.sequence([moveAction, SKAction.removeFromParent()]))
         }
@@ -367,10 +367,10 @@ class SevenWayBullet: SKNode {
 }
 
 class SequenceBullet: SKNode {
-    var width: CGFloat = 9
-    var height: CGFloat = 54
+    var width: CGFloat = 58
+    var height: CGFloat = 75
     var moveSpeed: CGFloat = 1.0
-    var bulletName: String = "laserBlue01"
+    var bulletName: String = "RedLaserLv2"
     var sequenceCount: Int = 0
     var frameHeight: CGFloat = 0
     
@@ -388,12 +388,24 @@ class SequenceBullet: SKNode {
     func shoot(level: Int, x: CGFloat, y: CGFloat) {
         if level == 1 {
             self.attack = 15
+            bulletName = "RedLaserLv1"
+            width = 2
+            height = 30
         } else if level == 2 {
             self.attack = 30
+            bulletName = "RedLaserLv2"
+            width = 14
+            height = 36
         } else if level == 3 {
             self.attack = 45
+            bulletName = "RedLaserLv3"
+            width = 15
+            height = 38
         } else if level == 4 {
             self.attack = 60
+            bulletName = "RedLaserLv4"
+            width = 16
+            height = 40
         }
         
         var shift: CGFloat = 0
@@ -410,7 +422,8 @@ class SequenceBullet: SKNode {
             shift = -shift
         }
         let bullet = SKSpriteNode.init(imageNamed: bulletName)
-        bullet.alpha = 0.8
+        bullet.alpha = 1.0
+        bullet.size = CGSize(width: width, height: height)
         bullet.position = CGPoint(x: x + shift, y: y)
         addChild(bullet)
 
@@ -427,10 +440,10 @@ class SequenceBullet: SKNode {
 
 class MatrixBullet: SKNode {
     var bullet = [SKSpriteNode]()
-    var width: CGFloat = 4.5
-    var height: CGFloat = 28.5
+    var width: CGFloat = 11
+    var height: CGFloat = 33
     var moveSpeed: CGFloat = 0.8
-    var bulletName: String = "laserRed13"
+    var bulletName: String = "SnowBulletLv1"
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")

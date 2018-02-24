@@ -11,9 +11,10 @@ import SpriteKit
 class SpaceShip: SKNode {
     var ship: SKSpriteNode
     var propeller: SKSpriteNode
+    var smoke: SKEmitterNode
 
     var shipName: String = "Spaceship"
-    var propellerName: String = "PropellerFire"
+    var propellerName: String = "fire"
     var shipMaxHp = 1000
 
     required init?(coder aDecoder: NSCoder) {
@@ -23,6 +24,7 @@ class SpaceShip: SKNode {
     init(position: CGPoint, size: CGSize) {
         ship = SKSpriteNode.init(imageNamed: shipName)
         propeller = SKSpriteNode(imageNamed: propellerName)
+        smoke = SKEmitterNode(fileNamed: "Smoke")!
         super.init()
         self.name = "Ship"
         self.hp = shipMaxHp
@@ -38,10 +40,14 @@ class SpaceShip: SKNode {
         addChild(ship)
         
         propeller.size = CGSize(width: 10, height: 30)
-        propeller.position.y -= size.height * 0.65
+        propeller.position.y -= size.height * 0.63
         propeller.zPosition = -1
         propeller.run(SKAction.repeatForever(SKAction.sequence([SKAction.move(by: CGVector(dx: 0, dy: 5), duration: 2), SKAction.move(by: CGVector(dx: 0, dy: -5), duration: 0.5)])))
         ship.addChild(propeller)
+        
+        smoke.position = CGPoint(x: 0, y: -size.height * 0.75)
+        ship.addChild(smoke)
+        smoke.zPosition = -2
     }
 }
 
